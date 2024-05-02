@@ -23,26 +23,11 @@ const app = express()
 
 //   GLOBAL MIDDLEWARE
 // Implement CORS
-app.use(cors())
+// app.use(cors())
 
-app.options('*', cors())
+// app.options('*', cors())
 
 app.use(express.static(path.join(__dirname, 'public')))
-
-// app.use(
-//   helmet({
-//     crossOriginEmbedderPolicy: false,
-//     crossOriginResourcePolicy: {
-//       allowOrigins: ['*'],
-//     },
-//     contentSecurityPolicy: {
-//       directives: {
-//         defaultSrc: ['*'],
-//         scriptSrc: ["* data: 'unsafe-eval' 'unsafe-inline' blob:"],
-//       },
-//     },
-//   })
-// )
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
@@ -57,12 +42,12 @@ if (process.env.NODE_ENV === 'development') {
 // app.use('/api', limiter)
 
 // Body parser, reading data from body into req.body
-app.use(express.json({ limit: '10kb' }))
-app.use(bodyParser.urlencoded({ extended: true, limit: '10kb' }))
-app.use(cookieParser())
+// app.use(express.json({ limit: '10kb' }))
+// app.use(bodyParser.urlencoded({ extended: true, limit: '10kb' }))
+// app.use(cookieParser())
 
 // Data sanitization against NOSQL query injection
-app.use(mongoSanitize())
+// app.use(mongoSanitize())
 
 // Data sanitization against XSS
 // app.use(xss())
@@ -78,6 +63,9 @@ app.use(compression())
 
 // app.use(middleware.unknownEndpoint)
 // app.use(middleware.errorHandler)
+app.use(express.static('build'))
+app.use(express.json())
+// app.use(middleware.requestLogger)
 
 app.use('/api/v1/messages', messageRouter)
 app.use('/api/v1/users', userRouter)
