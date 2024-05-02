@@ -44,6 +44,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 //   })
 // )
 
+app.use(helmet())
+
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
@@ -86,7 +88,7 @@ app.use('/api/v1/users', userRouter)
 //   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))
 // })
 
-// app.use(globalErrorHandler)
+app.use(globalErrorHandler)
 
 // START SERVER
 module.exports = app
