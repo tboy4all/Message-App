@@ -65,7 +65,7 @@ app.use(cookieParser())
 app.use(mongoSanitize())
 
 // Data sanitization against XSS
-app.use(xss())
+// app.use(xss())
 
 app.use(compression())
 
@@ -82,9 +82,9 @@ app.use((req, res, next) => {
 app.use('/api/v1/messages', messageRouter)
 app.use('/api/v1/users', userRouter)
 
-app.all('*', (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))
-})
+// app.all('*', (req, res, next) => {
+//   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))
+// })
 
 app.use(globalErrorHandler)
 
