@@ -1,6 +1,6 @@
 const Message = require('../models/messageModel')
 
-exports.createMessage = async (req, res) => {
+exports.createMessage = async (req, res, next) => {
   try {
     let { name, subject, content, isRead, sentDates } = req.body
     // const newTour = await Tour.create(req.body)
@@ -26,7 +26,7 @@ exports.createMessage = async (req, res) => {
   }
 }
 
-exports.getMessage = async (req, res) => {
+exports.getMessage = async (req, res, next) => {
   try {
     const message = await Message.findById(req.params.id)
 
@@ -44,7 +44,7 @@ exports.getMessage = async (req, res) => {
   }
 }
 
-exports.getAllMessages = async (req, res) => {
+exports.getAllMessages = async (req, res, next) => {
   try {
     const messages = await Message.find({})
 
@@ -84,7 +84,7 @@ exports.updateMessage = async (req, res, next) => {
   }
 }
 
-exports.deleteTour = async (req, res, next) => {
+exports.deleteMessage = async (req, res, next) => {
   'use strict'
   try {
     const tour = await Message.findByIdAndDelete(req.params.id)

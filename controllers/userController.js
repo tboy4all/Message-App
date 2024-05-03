@@ -11,16 +11,23 @@ const filterObj = (obj, ...allowedFields) => {
 }
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find()
+  try {
+    const users = await User.find()
 
-  // SEND RESPONSE
-  res.status(200).json({
-    status: 'success',
-    results: users.length,
-    data: {
-      users,
-    },
-  })
+    // SEND RESPONSE
+    res.status(200).json({
+      status: 'success',
+      results: users.length,
+      data: {
+        users,
+      },
+    })
+  } catch (error) {
+    res.status(404).json({
+      status: 'fail',
+      message: next(err),
+    })
+  }
 })
 
 exports.updateMe = catchAsync(async (req, res, next) => {
@@ -60,30 +67,66 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   })
 })
 
-exports.getUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'User its not defined yet',
-  })
+exports.getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id)
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        user,
+      },
+    })
+  } catch (error) {
+    res.status(404).json({
+      status: 'fail',
+      message: next(err),
+    })
+  }
 }
 
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',
-    message: 'User its not defined yet',
+    message: 'This route is not defined! Please use /signup instead',
   })
 }
 
-exports.updateUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'User its not defined yet',
-  })
+// Do NOT update passwords with this!
+exports.updateUser = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    })
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        user,
+      },
+    })
+  } catch (error) {
+    res.status(404).json({
+      status: 'fail',
+      message: next(err),
+    })
+  }
 }
 
-exports.deleteUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'User its not defined yet',
-  })
+exports.deleteUser = async (req, res, next) => {
+  'use strict'
+  try {
+    const user = await User.findByIdAndDelete(req.params.id)
+
+    res.status(204).json({
+      status: 'success',
+      data: null,
+    })
+  } catch (error) {
+    res.status(404).json({
+      status: 'fail',
+      message: next(err),
+    })
+  }
 }

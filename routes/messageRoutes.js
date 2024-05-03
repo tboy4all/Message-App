@@ -13,6 +13,6 @@ router
   .get(messageController.getMessage)
   // .patch(tourController.updateTour)
   .put(messageController.updateMessage)
-  .delete(messageController.deleteTour)
+  .delete(messageController.deleteMessage)
 
 module.exports = router
